@@ -1,4 +1,4 @@
-import 'package:joul_kong/data/models/enums.dart';
+import 'package:joul_kong/models/enums.dart';
 
 class Ticket {
   final String id;
