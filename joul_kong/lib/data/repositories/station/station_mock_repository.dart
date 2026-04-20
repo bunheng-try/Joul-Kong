@@ -5,7 +5,6 @@ import 'dart:math';
 class MockStationRepository implements StationRepository {
   final List<Station> stations;
 
-  const MockStationRepository({required this.stations});
 
   @override
   Future<List<Station>> getNearbyStations({
