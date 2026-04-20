@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/data/repositories/station_repository.dart';
+import '../../data/repositories/station/station_repository.dart';
 import '/models/station.dart';
 import '/ui/utils/aync_value.dart';
 

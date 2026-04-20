@@ -1,4 +1,4 @@
-import 'package:joul_kong/data/repositories/station_repository.dart';
+import 'package:joul_kong/data/repositories/station/station_repository.dart';
 import 'package:joul_kong/models/station.dart';
 import 'dart:math';
 
