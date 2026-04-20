@@ -16,6 +16,29 @@ class _MapCotentState extends State<MapCotent> {
 
   final LatLng center = const LatLng(11.5564, 104.9282);
 
+  BitmapDescriptor? blueMarker;
+  BitmapDescriptor? redMarker;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMarkers();
+  }
+
+  Future<void> _loadMarkers() async {
+    blueMarker = await BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(size: Size(96, 96)),
+      'assets/icons/blue_marker.png',
+    );
+
+    redMarker = await BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(size: Size(96, 96)),
+      'assets/icons/red_marker.png',
+    );
+
+    setState(() {}); 
+  }
+
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<StationMapViewModel>();
@@ -35,9 +58,9 @@ class _MapCotentState extends State<MapCotent> {
           snippet: "$available bikes available",
         ),
 
-        icon: BitmapDescriptor.defaultMarkerWithHue(
-          hasBikes ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed,
-        ),
+        icon: hasBikes
+            ? (blueMarker ?? BitmapDescriptor.defaultMarker)
+            : (redMarker ?? BitmapDescriptor.defaultMarker),
 
         onTap: () {
           Navigator.push(
