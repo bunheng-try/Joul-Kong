@@ -1,10 +1,10 @@
+import 'package:joul_kong/data/data_sources/mock/mock_data.dart';
 import 'package:joul_kong/data/repositories/station/station_repository.dart';
 import 'package:joul_kong/models/station.dart';
 import 'dart:math';
 
 class MockStationRepository implements StationRepository {
-  final List<Station> stations;
-
+  List<Station> get stations => MockData.stations;
 
   @override
   Future<List<Station>> getNearbyStations({

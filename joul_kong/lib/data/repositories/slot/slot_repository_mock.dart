@@ -1,45 +1,34 @@
 import 'dart:async';
+import 'package:joul_kong/data/data_sources/mock/mock_data.dart';
 import 'package:joul_kong/data/repositories/slot/slot_repository.dart';
-import 'package:joul_kong/models/enums.dart';
 import 'package:joul_kong/models/slot.dart';
 
 class MockSlotRepository implements SlotRepository {
-  final List<Slot> _slots = [
-    Slot(
-      id: "s1",
-      stationId: "station1",
-      bikeId: "b1",
-      status: SlotStatus.occupied,
-    ),
-    Slot(
-      id: "s2",
-      stationId: "station1",
-      bikeId: null,
-      status: SlotStatus.empty,
-    ),
-    Slot(
-      id: "s3",
-      stationId: "station1",
-      bikeId: "b2",
-      status: SlotStatus.occupied,
-    ),
-  ];
+  List<Slot> get _slots => MockData.slots;
 
   final _controller = StreamController<List<Slot>>.broadcast();
 
-  MockSlotRepository() {
-    _emit();
-  }
+  MockSlotRepository();
 
   void _emit() {
-    _controller.add(List.from(_slots));
+    print("🔥 EMIT SLOTS: ${_slots.length}");
+    _controller.add(List.unmodifiable(_slots));
   }
 
   @override
   Stream<List<Slot>> getSlotsByStation(String stationId) {
-    return _controller.stream.map(
-      (slots) => slots.where((s) => s.stationId == stationId).toList(),
-    );
+    print("👂 Listening slots for: $stationId");
+
+    // 🔥 IMPORTANT: emit AFTER listener attaches
+    Future.microtask(() => _emit());
+
+    return _controller.stream.map((slots) {
+      final filtered = slots.where((s) => s.stationId == stationId).toList();
+
+      print("📦 SLOT UPDATE: ${filtered.length}");
+
+      return filtered;
+    });
   }
 
   @override

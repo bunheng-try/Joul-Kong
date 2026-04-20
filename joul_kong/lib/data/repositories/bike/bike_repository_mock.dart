@@ -1,35 +1,10 @@
+import 'package:joul_kong/data/data_sources/mock/mock_data.dart';
 import 'package:joul_kong/models/bike.dart';
 import 'package:joul_kong/models/enums.dart';
 import 'bike_repository.dart';
 
 class MockBikeRepository implements BikeRepository {
-  final List<Bike> _bikes = [
-    Bike(
-      id: "b1",
-      status: BikeStatus.available,
-      currentStationId: "station1",
-      currentSlotId: "s1",
-    ),
-    Bike(
-      id: "b2",
-      status: BikeStatus.reserved,
-      currentStationId: "station1",
-      currentSlotId: "s3",
-      reservedUserId: "u1",
-    ),
-    Bike(
-      id: "b3",
-      status: BikeStatus.available,
-      currentStationId: "station2",
-      currentSlotId: "s5",
-    ),
-    Bike(
-      id: "b4",
-      status: BikeStatus.maintenance,
-      currentStationId: "station1",
-      currentSlotId: null,
-    ),
-  ];
+  List<Bike> get _bikes =>  MockData.bikes;
 
   @override
   Future<Bike?> getBikeById(String bikeId) async {
