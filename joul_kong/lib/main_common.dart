@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:joul_kong/ui/screens/map/map_screen.dart';
 import 'package:joul_kong/ui/screens/station_detail/station_detail_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return StationDetailScreen(stationId: "station1");
+    // return StationDetailScreen(stationId: "station1");
+    return MapScreen();
   }
 }
