@@ -119,7 +119,13 @@ class MockData {
     ),
     Slot(
       id: "s5",
-      stationId: "station1",
+      stationId: "station2",
+      bikeId: "b3",
+      status: SlotStatus.occupied,
+    ),
+    Slot(
+      id: "s6",
+      stationId: "station2",
       bikeId: null,
       status: SlotStatus.occupied,
     ),
