@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:joul_kong/models/enums.dart';
+import 'package:joul_kong/ui/screens/booking/booking_screen.dart';
 import 'package:joul_kong/ui/screens/station_detail/view_model/station_detail_view_model.dart';
 import 'package:joul_kong/ui/screens/station_detail/widgets/bike_card.dart';
 import 'package:joul_kong/ui/theme/app_spacing.dart';
@@ -52,7 +53,15 @@ class AvailableBikesSection extends StatelessWidget {
 
             onBook: isAvailable
                 ? () {
-                    // booking logic
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BookingScreen(
+                          bikeId: bike!.id,
+                          station: vm.station,
+                        ),
+                      ),
+                    );
                   }
                 : null,
           );

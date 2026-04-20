@@ -27,17 +27,18 @@ class StationDetailViewModel extends ChangeNotifier {
   List<Bike> bikes = [];
 
   StreamSubscription? _slotSub;
+  StreamSubscription? _bikeSub;
 
   StationDetailViewModel({
     required this.slotRepository,
     required this.bikeRepository,
-    required this.stationId, 
+    required this.stationId,
     required this.stationRepository,
   }) {
     _init();
   }
 
- Future<void> _init() async {
+  Future<void> _init() async {
     try {
       isLoading = true;
       notifyListeners();
@@ -49,6 +50,7 @@ class StationDetailViewModel extends ChangeNotifier {
       _bikesLoaded = true;
 
       _listenSlots();
+      _listenBikes();
 
       isLoading = false;
       notifyListeners();
@@ -62,6 +64,14 @@ class StationDetailViewModel extends ChangeNotifier {
     _slotSub = slotRepository.getSlotsByStation(stationId).listen((data) {
       slots = data;
 
+      notifyListeners();
+    });
+  }
+
+  void _listenBikes() {
+    _bikeSub = bikeRepository.watchBikesByStation(stationId).listen((data) {
+      bikes = data;
+      _bikesLoaded = true;
       notifyListeners();
     });
   }
@@ -115,6 +125,7 @@ class StationDetailViewModel extends ChangeNotifier {
   @override
   void dispose() {
     _slotSub?.cancel();
+    _bikeSub?.cancel();
     super.dispose();
   }
 }

@@ -11,21 +11,17 @@ class MockSlotRepository implements SlotRepository {
   MockSlotRepository();
 
   void _emit() {
-    print("🔥 EMIT SLOTS: ${_slots.length}");
     _controller.add(List.unmodifiable(_slots));
   }
 
   @override
   Stream<List<Slot>> getSlotsByStation(String stationId) {
-    print("👂 Listening slots for: $stationId");
 
-    // 🔥 IMPORTANT: emit AFTER listener attaches
     Future.microtask(() => _emit());
 
     return _controller.stream.map((slots) {
       final filtered = slots.where((s) => s.stationId == stationId).toList();
 
-      print("📦 SLOT UPDATE: ${filtered.length}");
 
       return filtered;
     });
