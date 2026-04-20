@@ -2,9 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:joul_kong/data/repositories/bike/bike_repository.dart';
 import 'package:joul_kong/data/repositories/slot/slot_repository.dart';
+import 'package:joul_kong/data/repositories/station/station_repository.dart';
 import 'package:joul_kong/models/bike.dart';
 import 'package:joul_kong/models/enums.dart';
 import 'package:joul_kong/models/slot.dart';
+import 'package:joul_kong/models/station.dart';
 import 'package:joul_kong/ui/utils/bike_stats.dart';
 
 enum SlotDisplayState { empty, available, reserved, maintenance, unknown }
@@ -12,38 +14,64 @@ enum SlotDisplayState { empty, available, reserved, maintenance, unknown }
 class StationDetailViewModel extends ChangeNotifier {
   final SlotRepository slotRepository;
   final BikeRepository bikeRepository;
+  final StationRepository stationRepository;
+
+  late Station station;
   final String stationId;
 
   bool isLoading = true;
 
+  bool _bikesLoaded = false;
+
   List<Slot> slots = [];
   List<Bike> bikes = [];
 
-  Slot? selectedSlot;
-
   StreamSubscription? _slotSub;
+  StreamSubscription? _bikeSub;
 
   StationDetailViewModel({
     required this.slotRepository,
     required this.bikeRepository,
     required this.stationId,
+    required this.stationRepository,
   }) {
     _init();
   }
 
   Future<void> _init() async {
-    isLoading = true;
-    notifyListeners();
+    try {
+      isLoading = true;
+      notifyListeners();
 
-    bikes = await bikeRepository.getBikesByStation(stationId);
+      station = await stationRepository.getStationById(stationId);
 
-    _listenSlots();
+      bikes = await bikeRepository.getBikesByStation(stationId);
+
+      _bikesLoaded = true;
+
+      _listenSlots();
+      _listenBikes();
+
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 
   void _listenSlots() {
     _slotSub = slotRepository.getSlotsByStation(stationId).listen((data) {
       slots = data;
-      isLoading = false;
+
+      notifyListeners();
+    });
+  }
+
+  void _listenBikes() {
+    _bikeSub = bikeRepository.watchBikesByStation(stationId).listen((data) {
+      bikes = data;
+      _bikesLoaded = true;
       notifyListeners();
     });
   }
@@ -56,7 +84,7 @@ class StationDetailViewModel extends ChangeNotifier {
     }
   }
 
-  int getAvailableBikeCount(String stationId) {
+  int getAvailableBikeCount() {
     return BikeStats.getAvailableBikeCount(bikes, stationId);
   }
 
@@ -65,6 +93,10 @@ class StationDetailViewModel extends ChangeNotifier {
   }
 
   SlotDisplayState getSlotDisplay(Slot slot) {
+    if (!_bikesLoaded) {
+      return SlotDisplayState.unknown;
+    }
+
     if (slot.bikeId == null) {
       return SlotDisplayState.empty;
     }
@@ -90,26 +122,10 @@ class StationDetailViewModel extends ChangeNotifier {
     }
   }
 
-  // ---------------------------
-  // SELECT SLOT
-  // ---------------------------
-  void selectSlot(Slot slot) {
-    if (slot.bikeId == null) return;
-
-    final bike = _getBike(slot.bikeId!);
-
-    if (bike == null || bike.status != BikeStatus.available) return;
-
-    selectedSlot = slot;
-    notifyListeners();
-  }
-
-  // ---------------------------
-  // DISPOSE
-  // ---------------------------
   @override
   void dispose() {
     _slotSub?.cancel();
+    _bikeSub?.cancel();
     super.dispose();
   }
 }
