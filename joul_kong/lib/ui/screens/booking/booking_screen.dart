@@ -27,8 +27,6 @@ class BookingScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => BookingViewModel(
         bookingRepository: context.read<BookingRepository>(),
-        ticketRepository: context.read<TicketRepository>(),
-        stationRepository: context.read<StationRepository>(),
         bikeRepository: context.read<BikeRepository>(),
         bookingState: context.read<BookingState>(),
         ticketState: context.read<TicketState>(),

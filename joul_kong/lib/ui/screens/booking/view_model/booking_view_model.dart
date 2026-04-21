@@ -17,8 +17,6 @@ enum BookingResult { success, noAccess, alreadyBooked, notFound }
 class BookingViewModel extends ChangeNotifier {
   final BookingRepository bookingRepository;
   final BikeRepository bikeRepository;
-  final TicketRepository ticketRepository;
-  final StationRepository stationRepository;
 
   final BookingState bookingState;
   final TicketState ticketState;
@@ -31,8 +29,6 @@ class BookingViewModel extends ChangeNotifier {
   BookingViewModel({
     required this.bookingRepository,
     required this.bikeRepository,
-    required this.ticketRepository,
-    required this.stationRepository,
     required this.bookingState,
     required this.ticketState,
     required this.passState,
