@@ -15,7 +15,7 @@ class FirebasePassRepository implements PassRepository {
 
   @override
   Future<List<PassPlan>> getPassPlans() async {
-    final url = Uri.parse('$baseUrl/passPlans.json');
+    final url = Uri.parse('$baseUrl/pass_plans.json');
 
     final res = await http.get(url);
 
