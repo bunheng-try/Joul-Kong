@@ -1,5 +1,6 @@
 import 'package:joul_kong/models/bike.dart';
 import 'package:joul_kong/models/enums.dart';
+import 'package:joul_kong/models/pass_plan.dart';
 import 'package:joul_kong/models/slot.dart';
 import 'package:joul_kong/models/station.dart';
 
@@ -128,6 +129,29 @@ class MockData {
       stationId: "station2",
       bikeId: null,
       status: SlotStatus.occupied,
+    ),
+  ];
+
+
+  static final List<PassPlan> passPlans = [
+    PassPlan(
+      id: "day",
+      name: "Day Pass",
+      price: 1.0,
+      durationHours: 24,
+      freeMinutesPerRide: 30,
+    ),
+    PassPlan(
+      id: "monthly",
+      name: "Monthly Pass",
+      price: 10.0,
+      durationHours: 24 * 30,
+    ),
+    PassPlan(
+      id: "annual",
+      name: "Annual Pass",
+      price: 100.0,
+      durationHours: 24 * 365,
     ),
   ];
 }

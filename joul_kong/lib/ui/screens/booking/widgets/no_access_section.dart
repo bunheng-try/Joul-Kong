@@ -1,6 +1,7 @@
 // lib/ui/screens/booking/widgets/no_access_section.dart
 import 'package:flutter/material.dart';
 import 'package:joul_kong/ui/screens/booking/widgets/payment_option_card.dart';
+import 'package:joul_kong/ui/screens/pass_selection/pass_selection_screen.dart';
 import 'package:joul_kong/ui/theme/app_colors.dart';
 import 'package:joul_kong/ui/theme/app_radius.dart';
 import 'package:joul_kong/ui/theme/app_spacing.dart';
@@ -14,6 +15,8 @@ class NoAccessSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = context.read<BookingViewModel>();
+    final userId = vm.userState.currentUser.id;
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,8 +46,14 @@ class NoAccessSection extends StatelessWidget {
           description:
               'Unlimited rides with longer free minutes\nDay Pass: \$8.99 • Monthly: \$29.99 • Annual: \$199.99',
           badgeText: 'Best Value',
-          onTap: () => null,
-          // isHighlighted: true,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PassSelectionScreen(userId: userId,),
+              ),
+            );
+          }
         ),
 
         const SizedBox(height: AppSpacing.lg),
