@@ -22,16 +22,17 @@ List<InheritedProvider> get devProviders {
   final stationRepository = MockStationRepository();
   final passRepository = MockPassRepository();
   final ticketRepository = MockTicketRepository();
+  final bookingRepository = MockBookingRepository();
 
   return [
     Provider<StationRepository>(create: (_) => stationRepository),
     Provider<SlotRepository>(create: (_) => MockSlotRepository()),
     Provider<BikeRepository>(create: (_) => MockBikeRepository()),
-    Provider<BookingRepository>(create: (_) => MockBookingRepository()),
+    Provider<BookingRepository>(create: (_) => bookingRepository),
     Provider<PassRepository>(create: (_) => passRepository),
     Provider<TicketRepository>(create: (_) => ticketRepository),
 
-    ChangeNotifierProvider<BookingState>(create: (_) => BookingState()),
+    ChangeNotifierProvider<BookingState>(create: (_) => BookingState(bookingRepository)),
     ChangeNotifierProvider<TicketState>(create: (_) => TicketState(ticketRepository)),
     ChangeNotifierProvider<StationState>(create: (_) => StationState(stationRepository)),
     ChangeNotifierProvider<PassState>(create: (_) => PassState(passRepository)),
