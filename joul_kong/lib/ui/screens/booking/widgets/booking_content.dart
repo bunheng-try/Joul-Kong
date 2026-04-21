@@ -24,7 +24,7 @@ class BookingContent extends StatelessWidget {
     final hasPass = pass.hasValidPass;
     final hasTicket = ticket.hasActiveTicket;
     final hasAccess = hasPass || hasTicket;
-    
+
     if (vm.isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -34,30 +34,32 @@ class BookingContent extends StatelessWidget {
         title: const Text("Confirm Booking"),
         backgroundColor: AppColors.backgroundColor,
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-
-            InfoSection(),
-
-            const SizedBox(height: AppSpacing.lg),
-
-            if (hasPass)
-              PassSection(pass: pass)
-            else if (hasTicket)
-              TicketSection()
-            else
-              NoAccessSection(),
-
-            const Spacer(),
-
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    InfoSection(),
+                    const SizedBox(height: AppSpacing.lg),
+                    if (hasPass)
+                      PassSection(pass: pass)
+                    else if (hasTicket)
+                      const TicketSection()
+                    else
+                      const NoAccessSection(),
+                  ],
+                ),
+              ),
+            ),
             BottomAction(
               hasAccess: hasAccess,
               onConfirm: () async {
                 final result = await vm.bookBike();
-
+        
                 switch (result) {
                   case BookingResult.success:
                     AppSuccessDialog.show(
@@ -69,23 +71,19 @@ class BookingContent extends StatelessWidget {
                       },
                     );
                     break;
-
+        
                   case BookingResult.noAccess:
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("You need a ticket or pass"),
-                      ),
+                      const SnackBar(content: Text("You need a ticket or pass")),
                     );
                     break;
-
+        
                   case BookingResult.alreadyBooked:
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("You already have a booking"),
-                      ),
+                      const SnackBar(content: Text("You already have a booking")),
                     );
                     break;
-
+        
                   case BookingResult.notFound:
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Bike not found")),
@@ -93,7 +91,7 @@ class BookingContent extends StatelessWidget {
                     break;
                 }
               },
-            )
+            ),
           ],
         ),
       ),
