@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 List<InheritedProvider> get devProviders {
   final stationRepository = MockStationRepository();
   final passRepository = MockPassRepository();
+  final ticketRepository = MockTicketRepository();
 
   return [
     Provider<StationRepository>(create: (_) => stationRepository),
@@ -28,10 +29,10 @@ List<InheritedProvider> get devProviders {
     Provider<BikeRepository>(create: (_) => MockBikeRepository()),
     Provider<BookingRepository>(create: (_) => MockBookingRepository()),
     Provider<PassRepository>(create: (_) => passRepository),
-    Provider<TicketRepository>(create: (_) => MockTicketRepository()),
+    Provider<TicketRepository>(create: (_) => ticketRepository),
 
     ChangeNotifierProvider<BookingState>(create: (_) => BookingState()),
-    ChangeNotifierProvider<TicketState>(create: (_) => TicketState()),
+    ChangeNotifierProvider<TicketState>(create: (_) => TicketState(ticketRepository)),
     ChangeNotifierProvider<StationState>(create: (_) => StationState(stationRepository)),
     ChangeNotifierProvider<PassState>(create: (_) => PassState(passRepository)),
     ChangeNotifierProvider<UserState>(create: (_) => UserState()),

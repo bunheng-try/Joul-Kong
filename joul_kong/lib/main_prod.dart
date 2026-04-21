@@ -25,6 +25,9 @@ import 'package:provider/provider.dart';
 List<InheritedProvider> get prodProviders {
   final stationRepository = FirebaseStationRepository(AppConfig.firebaseUrl);
   final passRepository = FirebasePassRepository(AppConfig.firebaseUrl);
+  final ticketRepository = FirebaseTicketRepository(AppConfig.firebaseUrl);
+
+
   return [
     Provider<StationRepository>(create: (_) => stationRepository),
     Provider<SlotRepository>(create: (_) => FirebaseSlotRepository(AppConfig.firebaseUrl)),
@@ -33,10 +36,10 @@ List<InheritedProvider> get prodProviders {
     ),
     Provider<BookingRepository>(create: (_) => FirebaseBookingRepository(AppConfig.firebaseUrl)),
     Provider<PassRepository>(create: (_) => passRepository),
-    Provider<TicketRepository>(create: (_) => FirebaseTicketRepository(AppConfig.firebaseUrl)),
+    Provider<TicketRepository>(create: (_) => ticketRepository),
 
     ChangeNotifierProvider<BookingState>(create: (_) => BookingState()),
-    ChangeNotifierProvider<TicketState>(create: (_) => TicketState()),
+    ChangeNotifierProvider<TicketState>(create: (_) => TicketState(ticketRepository)),
     ChangeNotifierProvider<StationState>(
       create: (_) => StationState(stationRepository),
     ),
