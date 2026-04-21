@@ -5,10 +5,12 @@ import 'package:joul_kong/models/enums.dart';
 import 'booking_repository.dart';
 
 class FirebaseBookingRepository implements BookingRepository {
-  final String baseUrl =
-      'https://joul-kong-default-rtdb.firebaseio.com';
+  final String baseUrl;
+
 
   Booking? _cachedBooking;
+
+  FirebaseBookingRepository(this.baseUrl);
 
   @override
   Future<Booking?> getActiveBooking(String userId) async {

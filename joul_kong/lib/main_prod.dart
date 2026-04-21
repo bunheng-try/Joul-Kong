@@ -1,17 +1,15 @@
 import 'package:joul_kong/data/data_sources/firebase/bike_repository_firebase.dart';
+import 'package:joul_kong/data/repositories/booking/booking_repository_firebase.dart';
 
 import '/data/data_sources/firebase/station_repository_firebase.dart';
 import '/constants/app_config.dart';
 import '/data/repositories/bike/bike_repository.dart';
-import '/data/repositories/bike/bike_repository_firebase.dart';
 import '/data/repositories/booking/booking_repository.dart';
-import '/data/repositories/booking/booking_repository_mock.dart';
 import '/data/repositories/pass/pass_repository.dart';
 import '/data/repositories/pass/pass_repository_mock.dart';
 import '/data/repositories/slot/slot_repository.dart';
 import '/data/repositories/slot/slot_repository_mock.dart';
 import '/data/repositories/station/station_repository.dart';
-import 'data/repositories/station/station_repository_firebase.dart';
 import '/data/repositories/ticket/ticket_repository.dart';
 import '/data/repositories/ticket/ticket_repository_mock.dart';
 import '/main_common.dart';
@@ -30,7 +28,7 @@ List<InheritedProvider> get prodProviders {
     Provider<BikeRepository>(
       create: (_) => FirebaseBikeRepository(AppConfig.firebaseUrl),
     ),
-    Provider<BookingRepository>(create: (_) => MockBookingRepository()),
+    Provider<BookingRepository>(create: (_) => FirebaseBookingRepository(AppConfig.firebaseUrl)),
     Provider<PassRepository>(create: (_) => MockPassRepository()),
     Provider<TicketRepository>(create: (_) => MockTicketRepository()),
 
