@@ -24,7 +24,7 @@ class BookingContent extends StatelessWidget {
     final hasPass = pass.hasValidPass;
     final hasTicket = ticket.hasActiveTicket;
     final hasAccess = hasPass || hasTicket;
-    
+
     if (vm.isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -34,25 +34,27 @@ class BookingContent extends StatelessWidget {
         title: const Text("Confirm Booking"),
         backgroundColor: AppColors.backgroundColor,
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-
-            InfoSection(),
-
-            const SizedBox(height: AppSpacing.lg),
-
-            if (hasPass)
-              PassSection(pass: pass)
-            else if (hasTicket)
-              TicketSection()
-            else
-              NoAccessSection(),
-
-            const Spacer(),
-
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    InfoSection(),
+                    const SizedBox(height: AppSpacing.lg),
+                    if (hasPass)
+                      PassSection(pass: pass)
+                    else if (hasTicket)
+                      const TicketSection()
+                    else
+                      const NoAccessSection(),
+                  ],
+                ),
+              ),
+            ),
             BottomAction(
               hasAccess: hasAccess,
               onConfirm: () async {
@@ -93,7 +95,7 @@ class BookingContent extends StatelessWidget {
                     break;
                 }
               },
-            )
+            ),
           ],
         ),
       ),
