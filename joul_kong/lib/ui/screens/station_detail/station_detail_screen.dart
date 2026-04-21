@@ -4,6 +4,7 @@ import 'package:joul_kong/data/repositories/slot/slot_repository.dart';
 import 'package:joul_kong/data/repositories/station/station_repository.dart';
 import 'package:joul_kong/ui/screens/station_detail/view_model/station_detail_view_model.dart';
 import 'package:joul_kong/ui/screens/station_detail/widgets/station_detail_content.dart';
+import 'package:joul_kong/ui/states/user_state.dart';
 import 'package:provider/provider.dart';
 
 class StationDetailScreen extends StatelessWidget {
@@ -19,6 +20,7 @@ class StationDetailScreen extends StatelessWidget {
         bikeRepository: context.read<BikeRepository>(),
         slotRepository: context.read<SlotRepository>(),
         stationRepository: context.read<StationRepository>(),
+        userState: context.read<UserState>()
       ),
       child: StationDetailContent(stationId: stationId),
     );

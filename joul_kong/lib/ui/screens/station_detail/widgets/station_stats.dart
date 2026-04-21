@@ -4,7 +4,6 @@ import 'package:joul_kong/ui/screens/station_detail/widgets/stat_card.dart';
 
 class StationStats extends StatelessWidget {
   final StationDetailViewModel vm;
-
   const StationStats({super.key, required this.vm});
 
   @override
@@ -27,7 +26,7 @@ class StationStats extends StatelessWidget {
 
         StatCard(
           icon: Icons.map,
-          value: "--",
+          value: "${vm.getDistanceToUser().toStringAsFixed(2)} km",
           label: "Distance",
           color: const Color(0xFFB0BEC5),
         ),

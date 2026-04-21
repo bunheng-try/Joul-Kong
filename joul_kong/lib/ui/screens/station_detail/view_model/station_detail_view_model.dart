@@ -7,7 +7,9 @@ import 'package:joul_kong/models/bike.dart';
 import 'package:joul_kong/models/enums.dart';
 import 'package:joul_kong/models/slot.dart';
 import 'package:joul_kong/models/station.dart';
+import 'package:joul_kong/ui/states/user_state.dart';
 import 'package:joul_kong/ui/utils/bike_stats.dart';
+import 'package:joul_kong/ui/utils/calculate_distance.dart';
 
 enum SlotDisplayState { empty, available, reserved, maintenance, unknown }
 
@@ -15,6 +17,8 @@ class StationDetailViewModel extends ChangeNotifier {
   final SlotRepository slotRepository;
   final BikeRepository bikeRepository;
   final StationRepository stationRepository;
+  final UserState userState;
+
 
   late Station station;
   final String stationId;
@@ -34,6 +38,8 @@ class StationDetailViewModel extends ChangeNotifier {
     required this.bikeRepository,
     required this.stationId,
     required this.stationRepository,
+    required this.userState,
+
   }) {
     _init();
   }
@@ -58,6 +64,15 @@ class StationDetailViewModel extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     }
+  }
+
+  double getDistanceToUser() {
+    return calculateDistance(
+      userState.currentUser.latitude,
+      userState.currentUser.longitude,
+      station.latitude,
+      station.longitude,
+    );
   }
 
   void _listenSlots() {
