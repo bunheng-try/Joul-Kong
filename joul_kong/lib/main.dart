@@ -27,19 +27,13 @@ List<InheritedProvider> get prodProviders {
   final passRepository = FirebasePassRepository(AppConfig.firebaseUrl);
   return [
     Provider<StationRepository>(create: (_) => stationRepository),
-    Provider<SlotRepository>(
-      create: (_) => FirebaseSlotRepository(AppConfig.firebaseUrl),
-    ),
+    Provider<SlotRepository>(create: (_) => FirebaseSlotRepository(AppConfig.firebaseUrl)),
     Provider<BikeRepository>(
       create: (_) => FirebaseBikeRepository(AppConfig.firebaseUrl),
     ),
-    Provider<BookingRepository>(
-      create: (_) => FirebaseBookingRepository(AppConfig.firebaseUrl),
-    ),
+    Provider<BookingRepository>(create: (_) => FirebaseBookingRepository(AppConfig.firebaseUrl)),
     Provider<PassRepository>(create: (_) => passRepository),
-    Provider<TicketRepository>(
-      create: (_) => FirebaseTicketRepository(AppConfig.firebaseUrl),
-    ),
+    Provider<TicketRepository>(create: (_) => FirebaseTicketRepository(AppConfig.firebaseUrl)),
 
     ChangeNotifierProvider<BookingState>(create: (_) => BookingState()),
     ChangeNotifierProvider<TicketState>(create: (_) => TicketState()),
