@@ -17,4 +17,13 @@ class MockTicketRepository implements TicketRepository {
     _activeTicket = ticket;
     return ticket;
   }
+
+  @override
+  Future<void> updateTicket(Ticket updatedTicket) async {
+    await Future.delayed(const Duration(milliseconds: 200));
+
+    if (_activeTicket?.id == updatedTicket.id) {
+      _activeTicket = updatedTicket;
+    }
+  }
 }
