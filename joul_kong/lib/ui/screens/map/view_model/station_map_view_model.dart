@@ -59,7 +59,7 @@ class StationMapViewModel extends ChangeNotifier {
           .whereType<StationWithBikeCount>()
           .toList();
     } catch (e) {
-      debugPrint("❌ Map error: $e");
+      debugPrint("Map error: $e");
     } finally {
       isLoading = false;
       notifyListeners();
