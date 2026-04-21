@@ -7,7 +7,6 @@ import 'package:joul_kong/models/bike.dart';
 import 'package:joul_kong/models/booking.dart';
 import 'package:joul_kong/models/enums.dart';
 import 'package:joul_kong/models/station.dart';
-import 'package:joul_kong/models/ticket.dart';
 import 'package:joul_kong/ui/states/booking_state.dart';
 import 'package:joul_kong/ui/states/pass_state.dart';
 import 'package:joul_kong/ui/states/ticket_state.dart';
@@ -21,18 +20,18 @@ class BookingViewModel extends ChangeNotifier {
   final TicketRepository ticketRepository;
   final StationRepository stationRepository;
 
-  final Station station;
-
   final BookingState bookingState;
   final TicketState ticketState;
   final PassState passState;
   final UserState userState;
+
+  final Station station;
   final String bikeId;
 
   BookingViewModel({
     required this.bookingRepository,
-    required this.ticketRepository,
     required this.bikeRepository,
+    required this.ticketRepository,
     required this.stationRepository,
     required this.bookingState,
     required this.ticketState,
@@ -40,10 +39,9 @@ class BookingViewModel extends ChangeNotifier {
     required this.userState,
     required this.station,
     required this.bikeId,
-
   });
 
-  late String stationId = station.id;
+  late final String stationId = station.id;
 
   bool isLoading = false;
 
@@ -58,18 +56,21 @@ class BookingViewModel extends ChangeNotifier {
       return BookingResult.notFound;
     }
 
-    final hasAccess = passState.hasValidPass || ticketState.hasActiveTicket;
+    final hasPass = passState.hasValidPass;
+    final hasTicket = ticketState.hasActiveTicket;
+
+    final hasAccess = hasPass || hasTicket;
 
     if (!hasAccess) {
       return BookingResult.noAccess;
     }
 
-    await _createBooking(bike);
+    await _createBooking(bike, hasPass, hasTicket);
 
     return BookingResult.success;
   }
 
-  Future<void> _createBooking(Bike bike) async {
+  Future<void> _createBooking(Bike bike, bool hasPass, bool hasTicket) async {
     isLoading = true;
     notifyListeners();
 
@@ -98,6 +99,10 @@ class BookingViewModel extends ChangeNotifier {
       ),
     );
 
+    if (!hasPass && hasTicket) {
+      await ticketState.markUsed();
+    }
+
     isLoading = false;
     notifyListeners();
   }
@@ -105,15 +110,6 @@ class BookingViewModel extends ChangeNotifier {
   Future<void> buyTicket() async {
     final userId = userState.currentUser.id;
 
-    final ticket = Ticket(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      userId: userId,
-      status: TicketStatus.active,
-      createdAt: DateTime.now(),
-    );
-
-    final createdTicket = await ticketRepository.createTicket(ticket);
-    ticketState.setTicket(createdTicket);
+    await ticketState.createTicket(userId);
   }
-
 }
