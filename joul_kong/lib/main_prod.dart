@@ -1,5 +1,6 @@
 import 'package:joul_kong/data/data_sources/firebase/bike_repository_firebase.dart';
 import 'package:joul_kong/data/repositories/booking/booking_repository_firebase.dart';
+import 'package:joul_kong/data/repositories/pass/pass_repository_firebase.dart';
 import 'package:joul_kong/data/repositories/slot/slot_repository_firebase.dart';
 import 'package:joul_kong/data/repositories/ticket/ticket_repository_firebase.dart';
 
@@ -23,6 +24,7 @@ import 'package:provider/provider.dart';
 
 List<InheritedProvider> get prodProviders {
   final stationRepository = FirebaseStationRepository(AppConfig.firebaseUrl);
+  final passRepository = FirebasePassRepository(AppConfig.firebaseUrl);
   return [
     Provider<StationRepository>(create: (_) => stationRepository),
     Provider<SlotRepository>(create: (_) => FirebaseSlotRepository(AppConfig.firebaseUrl)),
@@ -30,7 +32,7 @@ List<InheritedProvider> get prodProviders {
       create: (_) => FirebaseBikeRepository(AppConfig.firebaseUrl),
     ),
     Provider<BookingRepository>(create: (_) => FirebaseBookingRepository(AppConfig.firebaseUrl)),
-    Provider<PassRepository>(create: (_) => MockPassRepository()),
+    Provider<PassRepository>(create: (_) => passRepository),
     Provider<TicketRepository>(create: (_) => FirebaseTicketRepository(AppConfig.firebaseUrl)),
 
     ChangeNotifierProvider<BookingState>(create: (_) => BookingState()),
@@ -38,7 +40,7 @@ List<InheritedProvider> get prodProviders {
     ChangeNotifierProvider<StationState>(
       create: (_) => StationState(stationRepository),
     ),
-    ChangeNotifierProvider<PassState>(create: (_) => PassState()),
+    ChangeNotifierProvider<PassState>(create: (_) => PassState(passRepository)),
     ChangeNotifierProvider<UserState>(create: (_) => UserState()),
   ];
 }
