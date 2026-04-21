@@ -1,3 +1,5 @@
+import 'package:joul_kong/data/data_sources/firebase/bike_repository_firebase.dart';
+
 import '/data/data_sources/firebase/station_repository_firebase.dart';
 import '/constants/app_config.dart';
 import '/data/repositories/bike/bike_repository.dart';
