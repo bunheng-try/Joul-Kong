@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:joul_kong/models/enums.dart';
+import 'package:joul_kong/ui/states/user_state.dart';
 import '/data/repositories/bike/bike_repository.dart';
 import '/data/repositories/station/station_repository.dart';
 import '/ui/screens/map/view_model/station_with_bike_count.dart';
@@ -7,8 +8,9 @@ import '/ui/screens/map/view_model/station_with_bike_count.dart';
 class StationMapViewModel extends ChangeNotifier {
   final StationRepository stationRepo;
   final BikeRepository bikeRepo;
+  final UserState userState;
 
-  StationMapViewModel({required this.stationRepo, required this.bikeRepo}) {
+  StationMapViewModel({required this.stationRepo, required this.bikeRepo, required this.userState}) {
     loadStations();
   }
 
@@ -21,8 +23,8 @@ class StationMapViewModel extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
 
-      const userLat = 11.5564;
-      const userLng = 104.9282;
+      double userLat = userState.currentUser.latitude;
+      double userLng = userState.currentUser.longitude;
 
       final stations = await stationRepo.getStations();
 

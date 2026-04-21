@@ -3,7 +3,8 @@ import 'package:joul_kong/ui/screens/booking/view_model/booking_view_model.dart'
 import 'package:joul_kong/ui/screens/booking/widgets/bottom_action.dart';
 import 'package:joul_kong/ui/screens/booking/widgets/info_section.dart';
 import 'package:joul_kong/ui/screens/booking/widgets/no_access_section.dart';
-import 'package:joul_kong/ui/screens/booking/widgets/pass_section.dart';
+import 'package:joul_kong/ui/theme/app_text_styles.dart';
+import 'package:joul_kong/ui/widgets/pass_section.dart';
 import 'package:joul_kong/ui/screens/booking/widgets/ticket_section.dart';
 import 'package:joul_kong/ui/states/pass_state.dart';
 import 'package:joul_kong/ui/states/ticket_state.dart';
@@ -31,7 +32,7 @@ class BookingContent extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Confirm Booking"),
+        title: const Text("Confirm Booking", style: AppTextStyles.title,),
         backgroundColor: AppColors.backgroundColor,
       ),
       body: Container(

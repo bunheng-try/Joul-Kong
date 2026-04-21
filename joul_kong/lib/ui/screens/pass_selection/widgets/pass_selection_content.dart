@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:joul_kong/models/pass_plan.dart';
 import 'package:joul_kong/ui/screens/pass_selection/view_model/pass_selection_view_model.dart';
-import 'package:joul_kong/ui/screens/pass_selection/widgets/active_pass_warning.dart';
+import 'package:joul_kong/ui/screens/pass_selection/widgets/active_pass.dart';
 import 'package:joul_kong/ui/screens/pass_selection/widgets/pass_card.dart';
 import 'package:joul_kong/ui/theme/app_colors.dart';
 import 'package:joul_kong/ui/theme/app_radius.dart';
@@ -19,7 +19,7 @@ class PassSelectionContent extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select a Pass"),
+        title: Text(!vm.hasValidPass ? "Select a Pass" : "Active Pass", style: AppTextStyles.title,),
         backgroundColor: AppColors.backgroundColor,
       ),
       body: _buildBody(context, vm),
@@ -50,7 +50,7 @@ class PassSelectionContent extends StatelessWidget {
     }
 
     if (vm.hasValidPass) {
-      return const ActivePassWarning();
+      return const ActivePass();
     }
 
     return SingleChildScrollView(

@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:joul_kong/ui/screens/map/widgets/map_header.dart';
+import 'package:joul_kong/ui/screens/pass_selection/pass_selection_screen.dart';
 import '/ui/screens/map/widgets/station_tile.dart';
 import '/ui/screens/map/view_model/station_map_view_model.dart';
 import '/ui/screens/station_detail/station_detail_screen.dart';
@@ -67,6 +69,19 @@ class _MapCotentState extends State<MapCotent> {
                   markers: _markers,
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,
+                ),
+
+                MapHeader(
+                  onPassTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => PassSelectionScreen(
+                          userId: vm.userState.currentUser.id
+                        ),
+                      ),
+                    );
+                  },
                 ),
 
                 DraggableScrollableSheet(

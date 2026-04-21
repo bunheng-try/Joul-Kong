@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:joul_kong/ui/states/user_state.dart';
 import '/data/repositories/bike/bike_repository.dart';
 import '/data/repositories/station/station_repository.dart';
 import '/ui/screens/map/widgets/map_content.dart';
@@ -14,6 +15,7 @@ class MapScreen extends StatelessWidget {
       create: (_) => StationMapViewModel(
         stationRepo: context.read<StationRepository>(),
         bikeRepo: context.read<BikeRepository>(),
+        userState: context.read<UserState>()
       ),
       child: const MapCotent(),
     );
